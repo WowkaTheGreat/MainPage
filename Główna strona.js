@@ -131,5 +131,3 @@ function wszystkoGotowe(){
         }, szybkosc * 5
     );
 }
-
-// sldkfgksdfgk
