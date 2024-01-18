@@ -69,7 +69,7 @@ function wszystkoGotowe(){
             szybkosc * 3
         );
         //pokaż listę moich gier/stron
-        $("body").append('<a href="file:///Users/wowa/Desktop/work/G%C5%82%C3%B3wna%20strona/pozosta%C5%82e%20strony/banany/Banany.html"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Mega wyżerka!</h1></a>');
+        $("body").append('<a href="file:///Users/wowa/Desktop/work/MainPage/pozosta%C5%82e%20strony/banany/Banany.html"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Mega wyżerka!</h1></a>');
         $("body").append('<a href="about:blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Gra jeszcze nie gotowa</h1></a>');
         //sprawdź czy nie kliknięto(jeśli tak to prześlij na stonę)
         $("body").append(wowiskoinz);
