@@ -20,10 +20,10 @@ let antyZbadajNaTlo = setInterval(
     10
 );
 $("div2").fadeOut(0);
-$("body").append('<h1 id="instrukcja" style="font-size: 300%; color: rgb(4, 255, 0); border-style: solid; border-radius: 5px; left: 30%; width: 30%">INSTRUKCAJA: Pewien wieprzyk o imieniu Cycek <em>UWIELBIA</em> jeść wszystko, oprucz <em>zielonych rzeczy</em> oraz bomb. Twoje zadanie jest proste. Nakarmij ukochanego wieprzyka Cycka, tak mocno jak tylko się da! Miłej gry<button onclick="poczatek()">start</button></h1>');    
+$("body").append('<h1 id="instrukcja" style="font-size: 300%; color: rgb(4, 255, 0); border-style: solid; border-radius: 5px; left: 30%; width: 99%">INSTRUKCAJA: Pewien wieprzyk o imieniu Cycek <em>UWIELBIA</em> jeść wszystko, oprócz <em>zielonych rzeczy</em> oraz bomb. Twoje zadanie jest proste. Nakarmij ukochanego wieprzyka Cycka, tak mocno jak tylko się da! Miłej gry<button onclick="poczatek()">start</button></h1>');    
 function poczatek(){
     $("#instrukcja").remove();
-    $("div1").append('<h1 id="dane" style="position: fixed; font-size: 100; color: rgb(0, 0, 0); left: 4%; top: 3%; width: 200px;">rozmiar: </h1>');
+    $("body").append('<h1 id="dane" style="position: fixed; font-size: 100; color: rgb(0, 0, 0); left: 4%; top: 3%; width: 240px;">rozmiar: 100kg</h1>');
 
     let klawisze = {
         37: "lewo",
@@ -46,7 +46,7 @@ function poczatek(){
         $("#gameOver").css({position: "fixed", left: 30 + '%', top: 30 + '%'}).fadeOut(0);
         setTimeout(
             () => {
-                $("body").append('<h1 id="podGameOver" style="position: fixed; font-size: 400%; color: rgb(4, 255, 0); border-style: solid; border-height: 30%; left: 0%; top: 20%">Wieprzyk o imienu Cycek nie chce już jeść nic zielonego, ma dość ale nadal możesz się poprawić. Wystarczy tylko <a href="javascript:location.reload()" style="color: rgb(4, 255, 0);">odświeżyć stronę</a></h1>');
+                $("body").append('<h1 id="podGameOver" style="position: fixed; font-size: 400%; color: rgb(4, 255, 0); border-style: solid; border-height: 30%; left: 0%; top: 20%">Wieprzyk o imienu Cycek nie chce już jeść nic zielonego do tego stopnia że aż go pokiełbasiło na schab. By zagrać ponownie wystarczy tylko <a href="javascript:location.reload()" style="color: rgb(4, 255, 0);">odświeżyć stronę</a></h1>');
                 $("#podGameOver").fadeOut(0);
                 $("#gameOver").slideDown(1500);
                 $("div2").fadeOut(1500);
@@ -254,7 +254,16 @@ function poczatek(){
                 this.rozmiar = losuj(90, 120);
                 this.y = -this.rozmiar;
                 this.x = losuj(0, 1800) - 5;
-                this.eliksirHtml = '<img src="images/cycek.png" width="' + this.rozmiar + '" height="' + this.rozmiar + '">'
+                this.numer = Math.floor(Math.random() * 2);
+                this.ileDodac = 1;
+                this.eliksirHtml = '';
+                if(this.numer === 1){
+                    this.ileDodac = 1;
+                    this.eliksirHtml = '<img src="images/Butelka1.png" width="' + this.rozmiar + '" height="' + this.rozmiar + '">';
+                }else{
+                    this.ileDodac = -1;
+                    this.eliksirHtml = '<img src="images/Butelka0.png" width="' + this.rozmiar + '" height="' + this.rozmiar + '">';
+                }
                 this.eliksirImg = $(this.eliksirHtml);
                 this.eliksirImg.css({position: "fixed", left: this.x, top: this.y});
                 $("div1").append(this.eliksirImg);
@@ -270,7 +279,7 @@ function poczatek(){
                             let newInterval = setInterval(
                                 () => {
                                     this.timer++;
-                                    rozmiar += 1;
+                                    rozmiar += this.ileDodac;
                                     if(rozmiar >= 200)
                                         $("#dane").text("rozmiar: " + Math.floor(rozmiar) + "kg    zaciśnij shift, a będzie sprint");
                                     else
@@ -331,8 +340,10 @@ function poczatek(){
                 clearInterval(gra);
                 jedzenieDelite = true;
                 $("div1").fadeOut(3000);
+                $("#dane").fadeOut(3000);
                 setTimeout(
                     () => {
+                        $("#dane").remove();
                         przegrana();
                     }, 
                     3000
@@ -342,53 +353,53 @@ function poczatek(){
         }, 30
     );
 
-$("body").keydown(
-    (klawisz) => {
-        //console.log(klawisz.keyCode);
-        let wcisnietyKlawisz = klawisze[klawisz.keyCode];
-        switch(wcisnietyKlawisz){
-            case "lewo":
-                lewoDown = true;
-                break;
-            case "góra":
-                goraDown = true;
-                break;
-            case "prawo":
-                prawoDown = true;
-                break;
-            case "dół":
-                dolDown = true;
-                break;
-            case "shift":
-                if(rozmiar >= 200)
-                    shiftDown = true;
-                break;
+    $("body").keydown(
+        (klawisz) => {
+            //console.log(klawisz.keyCode);
+            let wcisnietyKlawisz = klawisze[klawisz.keyCode];
+            switch(wcisnietyKlawisz){
+                case "lewo":
+                    lewoDown = true;
+                    break;
+                case "góra":
+                    goraDown = true;
+                    break;
+                case "prawo":
+                    prawoDown = true;
+                    break;
+                case "dół":
+                    dolDown = true;
+                    break;
+                case "shift":
+                    if(rozmiar >= 200)
+                        shiftDown = true;
+                    break;
+            }
         }
-    }
-);
+    );
 
-$("body").keyup(
-    (klawisz) => {
-        let odcisnietyKlawisz = klawisze[klawisz.keyCode];
-        switch(odcisnietyKlawisz){
-            case "lewo":
-                lewoDown = false;
-                break;
-            case "góra":
-                goraDown = false;
-                break;
-            case "prawo":
-                prawoDown = false;
-                break;
-            case "dół":
-                dolDown = false;
-                break;
-            case "shift":
-                shiftDown = false;
-                break;
+    $("body").keyup(
+        (klawisz) => {
+            let odcisnietyKlawisz = klawisze[klawisz.keyCode];
+            switch(odcisnietyKlawisz){
+                case "lewo":
+                    lewoDown = false;
+                    break;
+                case "góra":
+                    goraDown = false;
+                    break;
+                case "prawo":
+                    prawoDown = false;
+                    break;
+                case "dół":
+                    dolDown = false;
+                    break;
+                case "shift":
+                    shiftDown = false;
+                    break;
+            }
         }
-    }
-);
+    );
 
 }
 

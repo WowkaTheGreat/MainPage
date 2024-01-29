@@ -1,9 +1,67 @@
-/*let mysz = document.getElementById("epickiWskaznikMyski");
+let mysz = document.getElementById("plotno");
 let kontekst = mysz.getContext("2d");
+let pixl;
 kontekst.lineWidth = 4;
 kontekst.fillStyle = "rgb(0, 255, 3)";
-//kontekst.clearRect(0, 0, 35, 35);
-kontekst.fillRect(0, 0, 35, 35);*/
+kontekst.strokeStyle = "rgb(0, 255, 3)";
+function rysujKursor()
+{
+    mysz = document.getElementById("plotno");
+    pixl = (mysz.width + mysz.height) / 70;
+    console.log(pixl);
+    
+    //kontekst.fillRect(0, 0, 35, 35);
+    kontekst.clearRect(0, 0, pixl * 35, pixl * 35);
+    kontekst.beginPath();
+    kontekst.arc(17.5 * pixl, 17.5 * pixl, 13.5 * pixl, 0, Math.PI * 2, false);
+
+    kontekst.moveTo(17.5 * pixl, 0); 
+    kontekst.lineTo(17.5 * pixl, 10.5 * pixl);
+    kontekst.moveTo(17.5 * pixl, 35 * pixl); 
+    kontekst.lineTo(17.5 * pixl, 24.5 * pixl);
+
+    kontekst.moveTo(0, 17.5 * pixl); 
+    kontekst.lineTo(10.5 * pixl, 17.5 * pixl);
+    kontekst.moveTo(35 * pixl, 17.5 * pixl); 
+    kontekst.lineTo(24.5 * pixl, 17.5 * pixl);
+
+    kontekst.moveTo(14.5 * pixl, 17.5 * pixl); 
+    kontekst.lineTo(20.5 * pixl, 17.5 * pixl);
+
+    kontekst.moveTo(17.5 * pixl, 14.5 * pixl); 
+    kontekst.lineTo(17.5 * pixl, 20.5 * pixl);
+    //kontekst.beginPath();
+
+    //kontekst.moveTo(15.5, 0); 
+    //kontekst.lineTo(10, 17.5);
+    //kontekst.lineTo(25, 17.5);
+    //kontekst.lineTo(14.5, 35);
+
+    kontekst.stroke();
+}
+function rysujMysze()
+{
+    pixl = 1;
+    kontekst.beginPath();
+    kontekst.arc(17.5 * pixl, 17.5 * pixl, 13.5 * pixl, 0, Math.PI * 2, false);
+
+    kontekst.moveTo(17.5 * pixl, 0); 
+    kontekst.lineTo(17.5 * pixl, 10.5 * pixl);
+    kontekst.moveTo(17.5 * pixl, 35 * pixl); 
+    kontekst.lineTo(17.5 * pixl, 24.5 * pixl);
+
+    kontekst.moveTo(0, 17.5 * pixl); 
+    kontekst.lineTo(10.5 * pixl, 17.5 * pixl);
+    kontekst.moveTo(35 * pixl, 17.5 * pixl); 
+    kontekst.lineTo(24.5 * pixl, 17.5 * pixl);
+
+    kontekst.moveTo(14.5 * pixl, 17.5 * pixl); 
+    kontekst.lineTo(20.5 * pixl, 17.5 * pixl);
+
+    kontekst.moveTo(17.5 * pixl, 14.5 * pixl); 
+    kontekst.lineTo(17.5 * pixl, 20.5 * pixl);
+    kontekst.stroke();
+}
 
 function wszystkoGotowe(){
     //$("div1").fadeOut(0);
@@ -76,8 +134,9 @@ function wszystkoGotowe(){
             szybkosc * 3
         );
         //pokaż listę moich gier/stron
-        $("body").append('<a href="file:///Users/wowa/Desktop/work/MainPage/pozosta%C5%82e%20strony/banany/Banany.html"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Mega wyżerka!</h1></a>');
-        $("body").append('<a href="about:blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Gra jeszcze nie gotowa</h1></a>');
+        rysujMysze();
+        $("body").append('<a href="file:///Users/wowa/Desktop/work/MainPage/pozosta%C5%82e%20strony/banany/Banany.html" target="_blank"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Mega wyżerka!</h1></a>');
+        $("body").append('<a href="about:blank" target="_blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + 'px; top: ' + element("y") + 'px; width: 150px; height: 150px;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'px; top: ' + elementTekstu("y") + 'px; width: 180px;">Gra jeszcze nie gotowa</h1></a>');
         //sprawdź czy nie kliknięto(jeśli tak to prześlij na stonę)
         $("body").append(wowiskoinz);
         $(wowiskoinz).mousemove(
@@ -93,12 +152,19 @@ function wszystkoGotowe(){
 
         $(document).mousemove(
             (kordy) => {
+                $("#plotno").css(
+                    {
+                        //transform: "rotate(" + (kordy.pageX + kordy.pageY) + "deg)",
+                        left: kordy.pageX  - 17.5,
+                        top: kordy.pageY - 17.5,
+                        width: 35,
+                        height: 35
+                    }
+                );
+
                 if(!(animacja < 0.1)){
                     animacja -= 0.1;
-                    animacja = Math.floor(animacja * 10);
-                    animacja = animacja / 10;
                 }
-                //$("#epickiWskaznikMyski").css({left: kordy.offsetX, top: kordy.offsetY});
                 //console.log(animacja);
             }            
         );
@@ -115,7 +181,7 @@ function wszystkoGotowe(){
                     $(wowiskoinz).animate({width: kordyWowiskoinza.rozmiar, height: kordyWowiskoinza.rozmiar, left: kordyWowiskoinza.left + "%"}, 500);
                 }
             }, 
-            500
+            550
         );
         //poka wowiskoinza
     }
