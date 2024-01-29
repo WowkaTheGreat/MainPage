@@ -1,3 +1,10 @@
+/*let mysz = document.getElementById("epickiWskaznikMyski");
+let kontekst = mysz.getContext("2d");
+kontekst.lineWidth = 4;
+kontekst.fillStyle = "rgb(0, 255, 3)";
+//kontekst.clearRect(0, 0, 35, 35);
+kontekst.fillRect(0, 0, 35, 35);*/
+
 function wszystkoGotowe(){
     //$("div1").fadeOut(0);
     let kordyWowiskoinza = {rozmiar: 210, left: 59, top: 70};
@@ -85,14 +92,15 @@ function wszystkoGotowe(){
         );
 
         $(document).mousemove(
-            () => {
+            (kordy) => {
                 if(!(animacja < 0.1)){
                     animacja -= 0.1;
                     animacja = Math.floor(animacja * 10);
                     animacja = animacja / 10;
                 }
+                //$("#epickiWskaznikMyski").css({left: kordy.offsetX, top: kordy.offsetY});
                 //console.log(animacja);
-            }
+            }            
         );
         setInterval(
             () => {

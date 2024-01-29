@@ -8,6 +8,7 @@ let iloscJedzenia = 5;
 let rozmiar = 100;
 let brokoly = [];
 let banany = [];
+let eliksir = [];
 let jedzenieDelite = false;
 let tloHtml = '<img id="tło" src="https://wally.com.pl/galerie/f/fototapeta-na-sciane-zielona-trawa-fp-6421_57381.jpg" width="101%" height="101%" style="left: -1%; top: -1%; position: fixed;">'
 let tlo = $(tloHtml);
@@ -243,6 +244,63 @@ function poczatek(){
         );
     }
 
+    function Eliksir()
+    {   
+        setTimeout(
+            () => {
+                if(jedzenieDelite)
+                    return;
+                
+                this.rozmiar = losuj(90, 120);
+                this.y = -this.rozmiar;
+                this.x = losuj(0, 1800) - 5;
+                this.eliksirHtml = '<img src="images/cycek.png" width="' + this.rozmiar + '" height="' + this.rozmiar + '">'
+                this.eliksirImg = $(this.eliksirHtml);
+                this.eliksirImg.css({position: "fixed", left: this.x, top: this.y});
+                $("div1").append(this.eliksirImg);
+                this.spadanie = setInterval(
+                    () => {
+                        this.y += this.rozmiar * szybkosc / 15;
+                        $(this.eliksirImg).css({top: this.y});
+                        
+                        if((this.x > cycek.x && this.x < cycek.x + cycek.width && this.y > cycek.y && this.y < cycek.y + cycek.height) || (this.x + this.rozmiar > cycek.x && this.x + this.rozmiar < cycek.x + cycek.width && this.y + this.rozmiar > cycek.y && this.y + this.rozmiar < cycek.y + cycek.height) || this.x < cycek.x && this.x + this.rozmiar > cycek.x + cycek.width && this.y < cycek.y && this.y + this.rozmiar > cycek.y + cycek.height){
+                            $(this.eliksirImg).remove();
+                            clearInterval(this.spadanie);
+                            this.timer = 0;
+                            let newInterval = setInterval(
+                                () => {
+                                    this.timer++;
+                                    rozmiar += 1;
+                                    if(rozmiar >= 200)
+                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar) + "kg    zaciśnij shift, a będzie sprint");
+                                    else
+                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar) + "kg");
+
+                                    if(this.timer > 100){
+                                        clearInterval(newInterval);
+                                        eliksir.pop();
+                                    }
+                                },
+                                20
+                            );
+                                
+                        }
+
+                        if(this.y > 950){
+                            $(this.eliksirImg).remove();
+                            clearInterval(this.spadanie);
+                            eliksir.pop();
+                        }
+                        
+                        if(jedzenieDelite)
+                            clearInterval(this.spadanie);
+                    }, 20
+                );
+            }, 
+            losuj(20000, 60000)
+        );
+    }
+
     $("div2").fadeIn(150);
     let cycek = new Cycek("Images/cycek2.png", 500, 940, rozmiar, rozmiar);
     let gra = setInterval(
@@ -263,6 +321,10 @@ function poczatek(){
             
             while(banany.length < iloscJedzenia){
                 banany.unshift(new Banany());
+            }
+
+            while(eliksir.length < 1){
+                eliksir.unshift(new Eliksir());
             }
 
             if(rozmiar < 45){
