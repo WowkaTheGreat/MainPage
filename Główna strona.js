@@ -1,3 +1,21 @@
+var x = document.createElement("AUDIO");
+x.setAttribute("src", "sounds/05 - Beating around the Bush.mp3");
+//x.setAttribute("controls","controls");
+document.body.appendChild(x);
+/*function play()
+{
+    x.play();
+}
+let odtwarzacz = document.getElementById('player');
+let video = document.getElementById('video');
+function wlaczOdtwarzacz(){
+    odtwarzacz.innerHTML='<iframe src="https://www.youtube.com/embed/sSKR_G3R_b0?si=24Q1U0-s4FXN6Jbc&amp;controls=0;loop=1;showinfo=0;playsinline=0;start=1;autoplay=1" title="YouTube video player"></iframe>';
+}*/
+
+function wlaczVideo(){
+    $("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/sSKR_G3R_b0?si=cDj_ldd5KenVfLwz&amp;controls=0&autoplay=1&mute=0&loop=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
+}
+
 let mysz = document.getElementById("plotno");
 let kontekst = mysz.getContext("2d");
 let pixl;
@@ -41,6 +59,7 @@ function rysujKursor()
 }
 function rysujMysze()
 {
+    kontekst.lineWidth = 4;
     pixl = 1;
     kontekst.beginPath();
     kontekst.arc(17.5 * pixl, 17.5 * pixl, 13.5 * pixl, 0, Math.PI * 2, false);
@@ -55,6 +74,7 @@ function rysujMysze()
     kontekst.moveTo(35 * pixl, 17.5 * pixl); 
     kontekst.lineTo(24.5 * pixl, 17.5 * pixl);
 
+    //kontekst.lineWidth = 0.2;
     kontekst.moveTo(14.5 * pixl, 17.5 * pixl); 
     kontekst.lineTo(20.5 * pixl, 17.5 * pixl);
 
@@ -192,7 +212,7 @@ function wszystkoGotowe(){
             $("#WowiskoPrzedstawia").fadeOut(szybkosc).remove();
             setTimeout(
                 () => {
-                    $("body").append('<h1 id="start" style="font-size: 500%; color: rgb(4, 255, 0); border-style: solid; border-color: rgb(4, 255, 0); position: fixed; left: 46%; top: 40%;">start</h1>');
+                    $("body").append('<h1 id="start" onclick="wlaczVideo()" style="font-size: 500%; color: rgb(4, 255, 0); border-style: solid; border-color: rgb(4, 255, 0); position: fixed; left: 46%; top: 40%;">start</h1>');
                     $("#start").fadeOut(0).slideDown(szybkosc * 0.77).click(
 
                         () => {
