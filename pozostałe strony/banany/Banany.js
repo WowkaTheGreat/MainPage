@@ -400,7 +400,6 @@ function poczatek(){
             }
         }
     );
-
 }
 
 
