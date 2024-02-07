@@ -13,8 +13,54 @@ function wlaczOdtwarzacz(){
 }*/
 
 function wlaczVideo(){
-    $("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/sSKR_G3R_b0?si=cDj_ldd5KenVfLwz&amp;controls=0&autoplay=1&mute=0&loop=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
-    //$("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/vNJnOfyhweo?si=LUfq1z2n_zk_OZBf&autoplay=1&mute=0&loop=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
+//    $("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/sSKR_G3R_b0?si=cDj_ldd5KenVfLwz&amp;controls=0&autoplay=1&mute=0&loop=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
+    $("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/videoseries?list=OLAK5uy_lwMFv-4tEIiqHk-FfJ4LpmbjPK-ELUyRI&controls=0&autoplay=1&mute=0&shuffle=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
+}
+
+function czySlowoZawieraWulgaryzm(slowoDoSprawdzenia)
+{
+    let listaWulgaryzmow = [
+        'cholera',
+        'kurewka',
+        'kurwa',
+        'pieprzyć',
+        'jebać',
+        'suka',
+        'sukinsyn',
+        'pierdolić',
+        'cipa',
+        'chuj',
+        'dziwka',
+        'cipka',
+        'szmata',
+        'pojeb',
+        'skurwysyn',
+        'jebany',
+        'pierdolony',
+        'dziwko',
+        'cholerny',
+        'do kurwy nędzy',
+        'kurczę',
+        'kurdupel',
+        'hitler',
+        'stalin',
+        'putin',
+        'russia',
+        'rosja'
+        // Dodaj więcej wulgaryzmów według potrzeb
+    ];
+
+    let gotoweSlowo = slowoDoSprawdzenia.toLowerCase();
+    for(let j = 0; j < listaWulgaryzmow.length; j++){
+
+        if(listaWulgaryzmow[i].includes(gotoweSlowo)){
+            return true;
+        }
+        for(var i = 0; i < gotoweSlowo.length; i++){
+            
+        }
+    }
+    return false;
 }
 
 let mysz = document.getElementById("plotno");
@@ -156,7 +202,7 @@ function wszystkoGotowe(){
         );
         //pokaż listę moich gier/stron
         rysujMysze();
-        $("body").append('<a href="file:///Users/wowa/Desktop/work/MainPage/pozosta%C5%82e%20strony/banany/Banany.html" target="_blank"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Mega wyżerka!</h1></a>');
+        $("body").append('<a href="pozostałe strony/banany/Banany.html" target="_blank"><img id="strona1" src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Mega wyżerka!</h1></a>');
         $("body").append('<a href="about:blank" target="_blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
         $("body").append('<a href="about:blank" target="_blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
         $("body").append('<a href="about:blank" target="_blank"><img id="strona1" src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
