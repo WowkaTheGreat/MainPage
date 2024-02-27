@@ -5,7 +5,7 @@ let dolDown = false;
 let shiftDown = false;
 let szybkosc = 0.1;
 let iloscJedzenia = 5;
-let rozmiar = 10;
+let rozmiar = 5;
 let brokoly = [];
 let banany = [];
 let eliksir = [];
@@ -20,7 +20,7 @@ let antyZbadajNaTlo = setInterval(
     10
 );
 $("div2").fadeOut(0);
-$("body").append('<h1 id="instrukcja" style="font-size: 3vw; color: rgb(4, 255, 0); border-style: solid; border-radius: 5px; left: 30%; width: 99vw">INSTRUKCAJA: Pewien wieprzyk o imieniu Cycek <em>UWIELBIA</em> jeść wszystko, oprócz <em>zielonych rzeczy</em> oraz bomb. Twoje zadanie jest proste. Nakarmij ukochanego wieprzyka Cycka, tak mocno jak tylko się da! Miłej gry<button onclick="poczatek()">start</button></h1>');    
+$("body").append('<h1 id="instrukcja" style="font-size: 3vw; color: rgb(4, 255, 0); border-style: solid; border-radius: 5px; left: 30%; width: 99vw">INSTRUKCAJA: Pewien wieprzyk o imieniu Bebech <em>UWIELBIA</em> jeść wszystko, oprócz <em>zielonych rzeczy</em> oraz bomb. Twoje zadanie jest proste. Nakarmij ukochanego wieprzyka Bebecha, tak mocno jak tylko się da! Miłej gry<button onclick="poczatek()">start</button></h1>');    
 function poczatek(){
     $("#instrukcja").remove();
     $("body").append('<h1 id="dane" style="position: fixed; font-size: 1.9vw; color: rgb(0, 0, 0); left: 4%; top: 3%; width: 3.40vw;">rozmiar: 100kg</h1>');
@@ -46,7 +46,7 @@ function poczatek(){
         $("#gameOver").css({position: "fixed", left: 30 + '%', top: 30 + '%'}).fadeOut(0);
         setTimeout(
             () => {
-                $("body").append('<h1 id="podGameOver" style="position: fixed; font-size: 4vw; color: rgb(4, 255, 0); border-style: solid; border-height: 30%; left: 0%; top: 20%">Wieprzyk o imienu Cycek nie chce już jeść nic zielonego do tego stopnia że aż go pokiełbasiło na schab. By zagrać ponownie wystarczy tylko <a href="javascript:location.reload()" style="color: rgb(4, 255, 0);">odświeżyć stronę</a></h1>');
+                $("body").append('<h1 id="podGameOver" style="position: fixed; font-size: 4vw; color: rgb(4, 255, 0); border-style: solid; border-height: 30%; left: 0%; top: 20%">Wieprzyk o imienu Bebech nie chce już jeść nic zielonego do tego stopnia że aż go pokiełbasiło na schab. By zagrać ponownie wystarczy tylko <a href="javascript:location.reload()" style="color: rgb(4, 255, 0);">odświeżyć stronę</a></h1>');
                 $("#podGameOver").fadeOut(0);
                 $("#gameOver").slideDown(1500);
                 $("div2").fadeOut(1500);
@@ -181,13 +181,13 @@ function poczatek(){
                             $(this.brokolyImg).remove();
                             clearInterval(this.spadanie);
                             brokoly.pop();
-                            rozmiar -= this.rozmiar * 0.3;
-                            if(rozmiar >= 40){
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
-                            }else if(rozmiar >= 20){
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint");
+                            rozmiar -= this.rozmiar * 0.1;
+                            if(rozmiar >= 20){
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
+                            }else if(rozmiar >= 10){
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint");
                             }else{ 
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg");
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg");
                             }
                         }
 
@@ -229,13 +229,13 @@ function poczatek(){
                             $(this.bananyImg).remove();
                             clearInterval(this.spadanie);
                             banany.pop();
-                            rozmiar += this.rozmiar * 0.3;
-                            if(rozmiar >= 40){
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
-                            }else if(rozmiar >= 20){
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint");
+                            rozmiar += this.rozmiar * 0.1;
+                            if(rozmiar >= 20){
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
+                            }else if(rozmiar >= 10){
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint");
                             }else{ 
-                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg");
+                                $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg");
                             }
                         }
 
@@ -268,10 +268,10 @@ function poczatek(){
                 this.ileDodac = 1;
                 this.eliksirHtml = '';
                 if(this.numer === 1){
-                    this.ileDodac = 1;
+                    this.ileDodac = 2 / 3;
                     this.eliksirHtml = '<img src="images/Butelka1.png" style="width:' + this.rozmiar + 'vw; height:' + this.rozmiar + 'vw;">';
                 }else{
-                    this.ileDodac = -1;
+                    this.ileDodac = -2 / 3;
                     this.eliksirHtml = '<img src="images/Butelka0.png" style="width:' + this.rozmiar + 'vw; height:' + this.rozmiar + 'vw;">';
                 }
                 this.eliksirImg = $(this.eliksirHtml);
@@ -290,12 +290,12 @@ function poczatek(){
                                 () => {
                                     this.timer++;
                                     rozmiar += this.ileDodac / 10;
-                                    if(rozmiar >= 40){
-                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
-                                    }else if(rozmiar >= 20){
-                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg     shift = sprint");
+                                    if(rozmiar >= 20){
+                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint   strzałka w góre lub dół = fajne rzeczy");
+                                    }else if(rozmiar >= 10){
+                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg     shift = sprint");
                                     }else{ 
-                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 10) + "kg");
+                                        $("#dane").text("rozmiar: " + Math.floor(rozmiar * 20) + "kg");
                                     }
                                     if(this.timer > 100){
                                         clearInterval(newInterval);
@@ -328,9 +328,9 @@ function poczatek(){
         () => {
             if(shiftDown && (lewoDown || prawoDown)){
                 cycek.zmienRozmiar(rozmiar * 1.6, rozmiar * 0.5);    
-            }else if(goraDown && !lewoDown && !prawoDown && !dolDown && (rozmiar >= 40)){
+            }else if(goraDown && !lewoDown && !prawoDown && !dolDown && (rozmiar >= 20)){
                 cycek.zmienRozmiar(rozmiar * 0.355, rozmiar * 1.5);      
-            }else if(dolDown && !prawoDown && !lewoDown && (rozmiar >= 40)){
+            }else if(dolDown && !prawoDown && !lewoDown && (rozmiar >= 20)){
                 cycek.zmienRozmiar(rozmiar * 1.955, rozmiar * 0.35)
             }else{
                 cycek.zmienRozmiar(rozmiar, rozmiar);
@@ -384,7 +384,7 @@ function poczatek(){
                     dolDown = true;
                     break;
                 case "shift":
-                    if(rozmiar >= 20)
+                    if(rozmiar >= 10)
                         shiftDown = true;
                     break;
             }

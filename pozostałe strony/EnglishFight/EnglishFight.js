@@ -1,0 +1,4 @@
+function game()
+{
+    $("body").append('<div id="buttony"><h1 style="position: fixed; left: 30vw; top: 0vh; width: 38vw; height: 10vw; border-color: #00ff03; font-size: 4vw; color: #00ff03;">PLEASE CLICK ONE BUTTON</h1><button onclick="twoPlayers()" style="position: fixed; left: 5vw; top: 25vh; width: 40vw; height: 25vw; border-color: #00ff03; background-color: #00ff03; font-size: 7vw;">2 PLAYERS</button><button onclick="onePlayer()" style="position: fixed; left: 50vw; top: 25vh; width: 40vw; height: 25vw; border-color: #00ff03; background-color: #00ff03; font-size: 7vw;">1 PLAYER</button></div>');
+}
