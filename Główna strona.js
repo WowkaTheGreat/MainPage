@@ -12,6 +12,7 @@ function wlaczOdtwarzacz(){
     odtwarzacz.innerHTML='<iframe src="https://www.youtube.com/embed/sSKR_G3R_b0?si=24Q1U0-s4FXN6Jbc&amp;controls=0;loop=1;showinfo=0;playsinline=0;start=1;autoplay=1" title="YouTube video player"></iframe>';
 }*/
 
+let szybkosc = 500;
 let mouseDown = false;
 let mysz = document.getElementById("plotno");
 let kontekst = mysz.getContext("2d");
@@ -19,6 +20,7 @@ let pixl;
 kontekst.lineWidth = 4;
 kontekst.fillStyle = "rgb(0, 255, 3)";
 kontekst.strokeStyle = "rgb(0, 255, 3)";
+let games = [];
 function rysujKursor()
 {
     mysz = document.getElementById("plotno");
@@ -79,23 +81,44 @@ function rysujMysze()
     kontekst.lineTo(17.5 * pixl, 20.5 * pixl);
     kontekst.stroke();
 }
-function AddGame(x, y, img, href, where)
-{
+function AddGame(x, y, img, href, textX, textY, text, where)
+{    
     this.x = x;
     this.y = y;
     this.img = img;
     this.href = href;
+    this.hrefHtml = '<a href="' + this.href + '" target="_blank"></a>';
+    this.hrefHtml = $(this.hrefHtml);
     this.where = where;
-    this.html = $('<a href="this.href" target="_blank"><img src="' + this.img + '" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + this.x + '%; top: ' + this.y + 'vw; width: 11vw; height: 11vw;">');
-    $(this.where).append(this.html);
+    this.html = $('<img src="' + this.img + '" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + this.x + '%; top: ' + this.y + 'vw; width: 11vw; height: 11vw;">');
+    this.textX = textX;
+    this.textY = textY;
+    this.text = text;
+    this.textHtml = '<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + this.textX + 'vw; top: ' + this.textY + 'vw; width: 11vw; font-size: 2vw;">' + this.text + '</h1>';
+    this.textHtml = $(this.textHtml);
+    $(this.where).append(this.hrefHtml);
+    $(this.hrefHtml).append(this.html);
+    $(this.hrefHtml).append(this.textHtml);
 }
 AddGame.prototype.changePosition = function(howMuchX, howMuchY)
 {
-    switch(howMuchX){
-        case null || undefined || ""
-            break;
-        case 
-    };
+    console.log("y: " + howMuchY);
+    console.log("x: " + howMuchX);
+    if(howMuchX === null || undefined || ""){
+        howMuchX = 0;
+    }
+    if(howMuchY === null || undefined || ""){
+        howMuchY = 0;
+    }
+    let x = this.x + howMuchX;
+    let y = this.y + howMuchY;
+    console.log("x this...............: " + this.x);
+    console.log("y this...............: " + this.y);
+    $(this.html).css({left: x + "%", top: y + "vw"});
+
+    let textX = this.textX + howMuchX;
+    let textY = this.textY + howMuchY;
+    $(this.textHtml).css({left: textX + "vw", top: textY + "vw"});    
 };
 function wlaczVideo(){
     $("body").append('<iframe width="1" height="1" style="position: fixed; opacity: 0;" src="https://www.youtube.com/embed/sSKR_G3R_b0?si=cDj_ldd5KenVfLwz&amp;controls=0&autoplay=1&mute=0&loop=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>');
@@ -165,7 +188,6 @@ function wszystkoGotowe(){
             nazwaUzytkownika = "???Bezimiennik???"
             break;        
     }
-    let szybkosc = 500;
     let klatki = {
         x: 150,
         y: 150,
@@ -218,21 +240,18 @@ function wszystkoGotowe(){
         );
         //pokaż listę moich gier/stron
         rysujMysze();
-        $("body").append('<a id="gry" href="pozostałe strony/banany/Banany.html" target="_blank"><img src="pozostałe strony/banany/images/banan.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: yellow; left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Mega wyżerka!</h1></a>');
-        $("body").append('<a id="gry" href="pozostałe strony/EnglishFight/EnglishFight.html" target="_blank"><img src="Images/NowaGra.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">EnglishFight</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").append('<a id="gry" href="about:blank" target="_blank"><img src="Images/NowaGra-2.png" style="position: fixed; border-style: solid; border-color: rgb(0, 255, 17); left: ' + element("x") + '%; top: ' + element("y") + 'vw; width: 11vw; height: 11vw;">').append('<h1 style="position: fixed; color: rgb(4, 255, 0); left: ' + elementTekstu("x") + 'vw; top: ' + elementTekstu("y") + 'vw; width: 11vw; font-size: 2vw;">Gra jeszcze nie gotowa</h1></a>');
-        $("body").css({height: elementTekstu("y") + "vw"});
+        games.push(new AddGame(element("x"), element("y"), "pozostałe strony/banany/Images/banan.png", "pozostałe strony/banany/Banany.html", elementTekstu("x"), elementTekstu("y"), "Mega wyżerka!", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra.png", "pozostałe strony/EnglishFight/EnglishFight.html", elementTekstu("x"), elementTekstu("y"), "EnglishFight", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        let bodyHeight = elementTekstu("y") + 11;
+        $("body").css({height: bodyHeight + "vw"});
         //sprawdź czy nie kliknięto(jeśli tak to prześlij na stonę)
         $("body").append(wowiskoinz);
         $(wowiskoinz).mousemove(
@@ -264,8 +283,22 @@ function wszystkoGotowe(){
                     mouseDown = false;
             }
         );
+        window.addEventListener("scroll", 
+            () => {
+                let scrollY = (window.scrollY / window.innerWidth   ) * 100;
+                for(let i = 0; i < games.length; i++){
+                    games[i].changePosition(0, -scrollY);
+                }
+            }
+        );
 
-        let poprzednieKordynatyMyszki = null;
+        $(document).click(
+            () => {
+                games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+                let bodyHeight = elementTekstu("y") + 11;
+                $("body").css({height: bodyHeight + "vw"});
+            }
+        );
         $(document).mousemove(
             (kordy) => {
                 $("#plotno").css(
@@ -281,7 +314,7 @@ function wszystkoGotowe(){
                     animacja -= 0.1;
                 }
                 //console.log(animacja);
-                console.log(mouseDown);
+                //console.log(mouseDown);
                 if(mouseDown){
                     $("#gry").css(
                         {
