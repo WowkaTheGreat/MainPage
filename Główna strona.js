@@ -12,15 +12,90 @@ function wlaczOdtwarzacz(){
     odtwarzacz.innerHTML='<iframe src="https://www.youtube.com/embed/sSKR_G3R_b0?si=24Q1U0-s4FXN6Jbc&amp;controls=0;loop=1;showinfo=0;playsinline=0;start=1;autoplay=1" title="YouTube video player"></iframe>';
 }*/
 
-let szybkosc = 500;
+let kordyWowiskoinza = {rozmiar: 11, left: 59, top: 2};
+let wowiskoinzy ='<img src="Images/Wowiskoinz-2.png" style="position: fixed; width: ' + kordyWowiskoinza.rozmiar + 'vw; height: ' + kordyWowiskoinza.rozmiar + 'vw; left: ' + kordyWowiskoinza.left + '%; top: ' + kordyWowiskoinza.top + 'vw;">'
+let wowiskoinz = $(wowiskoinzy);
+let animacja = 0;
+let szybkosc = 50;
 let mouseDown = false;
+let wowiskoinzTrue = true;
 let mysz = document.getElementById("plotno");
-let kontekst = mysz.getContext("2d");
+//let kontekst = mysz.getContext("2d");
 let pixl;
-kontekst.lineWidth = 4;
-kontekst.fillStyle = "rgb(0, 255, 3)";
-kontekst.strokeStyle = "rgb(0, 255, 3)";
+let celownikImg = "Images/kursory/kursor-snajperskiCelownik9.gif";
+//kontekst.lineWidth = 4;
+//kontekst.fillStyle = "rgb(0, 255, 3)";
+//kontekst.strokeStyle = "rgb(0, 255, 3)";
 let games = [];
+$("body").append("<style id='kursorA'> a, a:hover {cursor: url(" + celownikImg + ") 17.5 17.5, default;} </style>");
+let numerKlatki = -1;
+function zmienCelownik(img)
+{
+    $("#kursorA").remove();
+    celownikImg = img;
+    $("body").append("<style id='kursorA'> a, a:hover {cursor: url(" + celownikImg + ") 17.5 17.5, default;} </style>");
+}
+setInterval(
+    () => {
+        if(numerKlatki >= 55){
+            numerKlatki = -1;
+        }
+        numerKlatki++;
+        zmienCelownik("Images/kursory/kursorKońcowy/kaltka" + numerKlatki + ".png");
+    }, 
+    7
+);
+function wowiskoinzIf(ifTrueOrIfFalse, speed)
+{
+    switch(ifTrueOrIfFalse){
+        case true:
+            if(animacja >= 1){
+                wowiskoinzTrue = false;
+                wowiskoinz.animate({width: kordyWowiskoinza.rozmiar / 2 + "vw", height: kordyWowiskoinza.rozmiar / 2 + "vw", left: "50%"}, speed);
+                $("div1").animate({opacity: 0.9}, speed);
+            }
+            break;
+        case false:
+            if(animacja <= 1){
+                wowiskoinzTrue = true;
+                $("div1").animate({opacity: 0}, speed);
+                wowiskoinz.animate({width: kordyWowiskoinza.rozmiar + "vw", height: kordyWowiskoinza.rozmiar + "vw", left: kordyWowiskoinza.left + "%"}, speed);
+            }
+            break;
+    } 
+}
+function updateWoKoInformations()
+{    
+    let speed = 100;
+    let myInterval = setInterval(
+        () => {
+            if(!wowiskoinzTrue){
+                clearInterval(myInterval);
+                setTimeout(
+                    () => {
+                        speed = 500;
+                        let myNextInterval = setInterval(
+                            () => {
+                                if(wowiskoinzTrue){
+                                    clearInterval(myNextInterval);
+                                    setTimeout(() => {updateWoKoInformations();}, speed);
+                                }
+                                wowiskoinzIf(false, speed);
+                                console.log("false");
+                            }, 
+                            100
+                        );
+                    }, 
+                    speed
+                );
+            }
+            wowiskoinzIf(true, speed);
+            console.log("true");
+        }, 
+        100
+    );
+}
+/*
 function rysujKursor()
 {
     mysz = document.getElementById("plotno");
@@ -80,7 +155,8 @@ function rysujMysze()
     kontekst.moveTo(17.5 * pixl, 14.5 * pixl); 
     kontekst.lineTo(17.5 * pixl, 20.5 * pixl);
     kontekst.stroke();
-}
+}*/
+
 function AddGame(x, y, img, href, textX, textY, text, where)
 {    
     this.x = x;
@@ -102,8 +178,6 @@ function AddGame(x, y, img, href, textX, textY, text, where)
 }
 AddGame.prototype.changePosition = function(howMuchX, howMuchY)
 {
-    console.log("y: " + howMuchY);
-    console.log("x: " + howMuchX);
     if(howMuchX === null || undefined || ""){
         howMuchX = 0;
     }
@@ -112,8 +186,6 @@ AddGame.prototype.changePosition = function(howMuchX, howMuchY)
     }
     let x = this.x + howMuchX;
     let y = this.y + howMuchY;
-    console.log("x this...............: " + this.x);
-    console.log("y this...............: " + this.y);
     $(this.html).css({left: x + "%", top: y + "vw"});
 
     let textX = this.textX + howMuchX;
@@ -171,11 +243,7 @@ function czySlowoZawieraWulgaryzm(slowoDoSprawdzenia)
 }
 function wszystkoGotowe(){
     //$("div1").fadeOut(0);
-    let kordyWowiskoinza = {rozmiar: 11, left: 59, top: 2};
-    let wowiskoinzy ='<img src="Images/Wowiskoinz-2.png" style="position: fixed; width: ' + kordyWowiskoinza.rozmiar + 'vw; height: ' + kordyWowiskoinza.rozmiar + 'vw; left: ' + kordyWowiskoinza.left + '%; top: ' + kordyWowiskoinza.top + 'vw;">'
-    let wowiskoinz = $(wowiskoinzy);
     wowiskoinzy = 7679;
-    let animacja = 0;
     let nazwaUzytkownika = "Wowisko";//prompt("Twoja nazwa szefie!");
     switch(nazwaUzytkownika){
         case null: 
@@ -229,6 +297,9 @@ function wszystkoGotowe(){
 
     function start()
     {
+        // Ukryj kursor
+        //body.style.cursor = 'none';
+
         $("#start").remove();
         $("body").append('<h1 id="welcome" style="z-index: 9999; font-size: 5vw; color: rgb(4, 255, 0); position: fixed; left: 2%; top: 0%;">Witam serdecznie na mojej stronie</h1>');
         $("#welcome").fadeOut(szybkosc * 3).fadeIn(szybkosc * 3);
@@ -239,7 +310,7 @@ function wszystkoGotowe(){
             szybkosc * 3
         );
         //pokaż listę moich gier/stron
-        rysujMysze();
+        //rysujMysze();
         games.push(new AddGame(element("x"), element("y"), "pozostałe strony/banany/Images/banan.png", "pozostałe strony/banany/Banany.html", elementTekstu("x"), elementTekstu("y"), "Mega wyżerka!", "body"));
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra.png", "pozostałe strony/EnglishFight/EnglishFight.html", elementTekstu("x"), elementTekstu("y"), "EnglishFight", "body"));
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
@@ -254,7 +325,7 @@ function wszystkoGotowe(){
         $("body").css({height: bodyHeight + "vw"});
         //sprawdź czy nie kliknięto(jeśli tak to prześlij na stonę)
         $("body").append(wowiskoinz);
-        $(wowiskoinz).mousemove(
+        wowiskoinz.mousemove(
             () => {
                 animacja = 1.1;
             }
@@ -277,7 +348,7 @@ function wszystkoGotowe(){
                     mouseDown = false;
             }
         );
-        $(wowiskoinz).mousedown(
+        wowiskoinz.mousedown(
             (dane) => {
                 if(dane === 1)
                     mouseDown = false;
@@ -301,44 +372,21 @@ function wszystkoGotowe(){
         );
         $(document).mousemove(
             (kordy) => {
-                $("#plotno").css(
+                /*$("#plotno").css(
                     {
-                        //transform: "rotate(" + (kordy.pageX + kordy.pageY) + "deg)",
+                        //transform: "rotate(" + (kordy.clientX + kordy.clientY) + "deg)",
                         left: kordy.clientX  - 17.5,
                         top: kordy.clientY - 17.5,
                         width: 35,
                         height: 35
                     }
-                );
+                );*/
                 if(!(animacja < 0.1)){
                     animacja -= 0.1;
                 }
-                //console.log(animacja);
-                //console.log(mouseDown);
-                if(mouseDown){
-                    $("#gry").css(
-                        {
-                            top: "+=10vw"
-                        }
-                    );
-                }
             }            
         );
-        setInterval(
-            () => {
-                //wowiskoinzy++;
-                //$("#iloscWowiskoinzow").text(wowiskoinzy);
-                if(animacja >= 1){
-                    //console.log("true");
-                    $(wowiskoinz).animate({width: kordyWowiskoinza.rozmiar / 2 + "vw", height: kordyWowiskoinza.rozmiar / 2 + "vw", left: "50%"}, 500);
-                    $("div1").animate({opacity: 0.9}, 500);
-                }else{
-                    $("div1").animate({opacity: 0}, 500);
-                    $(wowiskoinz).animate({width: kordyWowiskoinza.rozmiar + "vw", height: kordyWowiskoinza.rozmiar + "vw", left: kordyWowiskoinza.left + "%"}, 500);
-                }
-            }, 
-            550
-        );
+
         //poka wowiskoinza
     }
 
@@ -361,3 +409,5 @@ function wszystkoGotowe(){
         }, szybkosc * 5
     );
 }
+
+updateWoKoInformations();
