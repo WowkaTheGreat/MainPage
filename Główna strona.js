@@ -56,7 +56,7 @@ function wowiskoinzIf(ifTrueOrIfFalse, speed)
             }
             break;
         case false:
-            if(animacja <= 1){
+            if(animacja < 1){
                 wowiskoinzTrue = true;
                 $("div1").animate({opacity: 0}, speed);
                 wowiskoinz.animate({width: kordyWowiskoinza.rozmiar + "vw", height: kordyWowiskoinza.rozmiar + "vw", left: kordyWowiskoinza.left + "%"}, speed);
@@ -66,7 +66,7 @@ function wowiskoinzIf(ifTrueOrIfFalse, speed)
 }
 function updateWoKoInformations()
 {    
-    let speed = 100;
+    let speed = 250;
     let myInterval = setInterval(
         () => {
             if(!wowiskoinzTrue){
@@ -78,21 +78,21 @@ function updateWoKoInformations()
                             () => {
                                 if(wowiskoinzTrue){
                                     clearInterval(myNextInterval);
-                                    setTimeout(() => {updateWoKoInformations();}, speed);
+                                    setTimeout(() => {updateWoKoInformations();}, 1);
                                 }
                                 wowiskoinzIf(false, speed);
-                                console.log("false");
+                                //console.log("false");
                             }, 
-                            100
+                            1000
                         );
                     }, 
                     speed
                 );
             }
             wowiskoinzIf(true, speed);
-            console.log("true");
+            //console.log("true");
         }, 
-        100
+        10
     );
 }
 /*
@@ -259,7 +259,7 @@ function wszystkoGotowe(){
     let klatki = {
         x: 150,
         y: 150,
-        numerY: 0.7,
+        numerY: 0.875,
         numerX: -0.5
     };
     function element(kierunek)
@@ -297,20 +297,8 @@ function wszystkoGotowe(){
 
     function start()
     {
-        // Ukryj kursor
-        //body.style.cursor = 'none';
-
         $("#start").remove();
-        $("body").append('<h1 id="welcome" style="z-index: 9999; font-size: 5vw; color: rgb(4, 255, 0); position: fixed; left: 2%; top: 0%;">Witam serdecznie na mojej stronie</h1>');
-        $("#welcome").fadeOut(szybkosc * 3).fadeIn(szybkosc * 3);
-        setTimeout(
-            () => {
-                $("#welcome").text(nazwaUzytkownika);
-            }, 
-            szybkosc * 3
-        );
         //pokaż listę moich gier/stron
-        //rysujMysze();
         games.push(new AddGame(element("x"), element("y"), "pozostałe strony/banany/Images/banan.png", "pozostałe strony/banany/Banany.html", elementTekstu("x"), elementTekstu("y"), "Mega wyżerka!", "body"));
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra.png", "pozostałe strony/EnglishFight/EnglishFight.html", elementTekstu("x"), elementTekstu("y"), "EnglishFight", "body"));
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
@@ -323,16 +311,25 @@ function wszystkoGotowe(){
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
         let bodyHeight = elementTekstu("y") + 11;
         $("body").css({height: bodyHeight + "vw"});
+        $("body").append('<img id="podkładka" src="Images/podkładkaCzarna.png" style="position: fixed; left: 0vw; top: 0vw; width: 100vw; height: 13.5vw;">');
+        $("body").append('<h1 id="welcome" style="z-index: 9999; font-size: 5vw; color: rgb(4, 255, 0); position: fixed; left: 2%; top: 0%;">Witam serdecznie na mojej stronie</h1>');
+        $("#welcome").fadeOut(szybkosc * 3).fadeIn(szybkosc * 3);
+        setTimeout(
+            () => {
+                $("#welcome").text(nazwaUzytkownika);
+            }, 
+            szybkosc * 3
+        );
         //sprawdź czy nie kliknięto(jeśli tak to prześlij na stonę)
         $("body").append(wowiskoinz);
         wowiskoinz.mousemove(
             () => {
-                animacja = 1.1;
+                animacja = 1.25;
             }
         );
         $("div1").mousemove(
             () => {
-                animacja = 1.1;
+                animacja = 1.25;
             }
         );
 
@@ -363,13 +360,13 @@ function wszystkoGotowe(){
             }
         );
 
-        $(document).click(
+        /*$(document).click(
             () => {
                 games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
                 let bodyHeight = elementTekstu("y") + 11;
                 $("body").css({height: bodyHeight + "vw"});
             }
-        );
+        );*/
         $(document).mousemove(
             (kordy) => {
                 /*$("#plotno").css(
