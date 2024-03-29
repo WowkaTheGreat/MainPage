@@ -301,17 +301,9 @@ function wszystkoGotowe(){
         //pokaż listę moich gier/stron
         games.push(new AddGame(element("x"), element("y"), "pozostałe strony/banany/Images/banan.png", "pozostałe strony/banany/Banany.html", elementTekstu("x"), elementTekstu("y"), "Mega wyżerka!", "body"));
         games.push(new AddGame(element("x"), element("y"), "Images/NowaGra.png", "pozostałe strony/EnglishFight/EnglishFight.html", elementTekstu("x"), elementTekstu("y"), "EnglishFight", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
-        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "about:blank", elementTekstu("x"), elementTekstu("y"), "Gra jeszcze nie gotowa", "body"));
+        games.push(new AddGame(element("x"), element("y"), "Images/NowaGra-2.png", "pozostałe strony/UstawianiePostaci/Ustawianie.html", elementTekstu("x"), elementTekstu("y"), "Ustawianie Postaci", "body"));
         let bodyHeight = elementTekstu("y") + 11;
         $("body").css({height: bodyHeight + "vw"});
-        $("body").append('<img id="podkładka" src="Images/podkładkaCzarna.png" style="position: fixed; left: 0vw; top: 0vw; width: 100vw; height: 13.5vw;">');
         $("body").append('<h1 id="welcome" style="z-index: 9999; font-size: 5vw; color: rgb(4, 255, 0); position: fixed; left: 2%; top: 0%;">Witam serdecznie na mojej stronie</h1>');
         $("#welcome").fadeOut(szybkosc * 3).fadeIn(szybkosc * 3);
         setTimeout(
