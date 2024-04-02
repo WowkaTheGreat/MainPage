@@ -2,10 +2,10 @@ var x = document.createElement("AUDIO");
 x.setAttribute("src", "sounds/05 - Beating around the Bush.mp3");
 //x.setAttribute("controls","controls");
 document.body.appendChild(x);
-/*function play()
+function play()
 {
     x.play();
-}
+}/*
 let odtwarzacz = document.getElementById('player');
 let video = document.getElementById('video');
 function wlaczOdtwarzacz(){
@@ -385,9 +385,8 @@ function wszystkoGotowe(){
             $("#WowiskoPrzedstawia").fadeOut(szybkosc).remove();
             setTimeout(
                 () => {
-                    $("body").append('<h1 id="start" onclick="wlaczVideo()" style="font-size: 5vw; color: rgb(4, 255, 0); border-style: solid; border-color: rgb(4, 255, 0); position: fixed; left: 46%; top: 40%;">start</h1>');
+                    $("body").append('<h1 id="start" onclick="play()" style="font-size: 5vw; color: rgb(4, 255, 0); border-style: solid; border-color: rgb(4, 255, 0); position: fixed; left: 46%; top: 40%;">start</h1>');
                     $("#start").fadeOut(0).slideDown(szybkosc * 0.77).click(
-
                         () => {
                             start();
                             console.log("Witam na Wowisko.pl cheaterze");
