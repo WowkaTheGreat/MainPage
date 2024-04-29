@@ -16,7 +16,7 @@ let kordyWowiskoinza = {rozmiar: 11, left: 59, top: 2};
 let wowiskoinzy ='<img src="Images/Wowiskoinz-2.png" style="position: fixed; width: ' + kordyWowiskoinza.rozmiar + 'vw; height: ' + kordyWowiskoinza.rozmiar + 'vw; left: ' + kordyWowiskoinza.left + '%; top: ' + kordyWowiskoinza.top + 'vw;">'
 let wowiskoinz = $(wowiskoinzy);
 let animacja = 0;
-let szybkosc = 50;
+let szybkosc = 500;
 let mouseDown = false;
 let wowiskoinzTrue = true;
 let mysz = document.getElementById("plotno");
