@@ -94,29 +94,32 @@ function Limb(left, top, width, height, src)
 
 Limb.prototype.controls = function(controller)
 {
+  let nrOneButtonDown = false;
   let down = false;
   switch(controller){
     case "sizeController": 
       let nrOne = false;
       let sizeControllerDown = false;
+      let sizeControllerButtonDown = false;
       let sizeController = document.createElement("button");
       sizeController.id = "sizeController";
       $(sizeController).css({position: "fixed", left: this.left + "vw", top: this.top - 3 + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
       sizeController.textContent = "Size Controller";
+      $(sizeController).css({"color": this.color, "background-color": "#000000a7"});
       this.dropZone.appendChild(sizeController);
 
       sizeController.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
-          down = true;
+          sizeControllerButtonDown = true;
         }
       }); 
       sizeController.addEventListener("mouseup", function(event){
         event.preventDefault();
-        down = false;
+        sizeControllerButtonDown = false;
       });
       document.addEventListener("mousemove", (event) => {
-        if(down){
+        if(sizeControllerButtonDown){
           let x = event.clientX / window.innerWidth * 100;
           let y = event.clientY / window.innerWidth * 100;
           $(sizeController).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
@@ -144,7 +147,7 @@ Limb.prototype.controls = function(controller)
         down = false;
       });
       document.addEventListener("mousemove", (event) => {
-        if(sizeControllerDown && nrOne){
+        if(nrOne && !sizeControllerButtonDown && !nrOneButtonDown){
           let x = event.clientX / window.innerWidth * 100 - downCords.x;
           let y = event.clientY / window.innerWidth * 100 - downCords.y;
           this.left += x - this.left;
@@ -229,7 +232,6 @@ Limb.prototype.controls = function(controller)
           });
         }
       });
-
       document.addEventListener("mouseup", () => {
         this.mouseDown = false;
       });
@@ -253,25 +255,23 @@ Limb.prototype.controls = function(controller)
           theButtonDown = false;
         }
       }
-
       button.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
-          down = true;
+          nrOneButtonDown = true;
         }
       }); 
-      button.addEventListener("mouseup", function(event){
+      document.addEventListener("mouseup", function(event){
         event.preventDefault();
-        down = false;
+        nrOneButtonDown = false;
       }); 
       document.addEventListener("mousemove", (event) => {
-        if(down){
+        if(nrOneButtonDown){
           let x = event.clientX / window.innerWidth * 100;
           let y = event.clientY / window.innerWidth * 100;
           $(button).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
         }
       });
-      
       document.addEventListener("click", () => {
         if(theButtonDown){
           let kordynatyty = elementWent(110, 1);
