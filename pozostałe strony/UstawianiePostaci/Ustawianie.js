@@ -94,32 +94,31 @@ function Limb(left, top, width, height, src)
 
 Limb.prototype.controls = function(controller)
 {
-  let nrOneButtonDown = false;
-  let down = false;
+  let rotateControllerTestDown = false;
+  let sizeControllerDown = false;
   switch(controller){
     case "sizeController": 
-      let nrOne = false;
-      let sizeControllerDown = false;
-      let sizeControllerButtonDown = false;
+      let dropDown = false;
+      let sizeControllerOnclick = false;
       let sizeController = document.createElement("button");
       sizeController.id = "sizeController";
       $(sizeController).css({position: "fixed", left: this.left + "vw", top: this.top - 3 + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
       sizeController.textContent = "Size Controller";
       $(sizeController).css({"color": this.color, "background-color": "#000000a7"});
-      this.dropZone.appendChild(sizeController);
+      document.body.appendChild(sizeController);
 
       sizeController.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
-          sizeControllerButtonDown = true;
+          sizeControllerDown = true;
         }
       }); 
       sizeController.addEventListener("mouseup", function(event){
         event.preventDefault();
-        sizeControllerButtonDown = false;
+        sizeControllerDown = false;
       });
       document.addEventListener("mousemove", (event) => {
-        if(sizeControllerButtonDown){
+        if(sizeControllerDown){
           let x = event.clientX / window.innerWidth * 100;
           let y = event.clientY / window.innerWidth * 100;
           $(sizeController).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
@@ -128,36 +127,22 @@ Limb.prototype.controls = function(controller)
       sizeController.onclick = () => {
         if(!(sizeController.textContent === "Main menu")){
           sizeController.textContent = "Main menu";
-          sizeControllerDown = true;
+          sizeControllerOnclick = true;
         }else if(!(sizeController.textContent === "Size Controller")){
           sizeController.textContent = "Size Controller";
-          sizeControllerDown = false;
+          sizeControllerOnclick = false;
         }
       }
+
       let downCords = {x: null, y: null};
-      this.dropZone.addEventListener("mousedown", (event) => {
+      this.dropZone.addEventListener("mousedown", (event) => {///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        event.preventDefault();
         if(event.button === 1){
           downCords.x = event.clientX / window.innerWidth * 100 - this.left;
           downCords.y = event.clientY / window.innerWidth * 100 - this.top;
-          nrOne = true;
+          dropDown = true;
         }
-      });
-      document.addEventListener("mouseup", () => {
-        nrOne = false;
-        down = false;
-      });
-      document.addEventListener("mousemove", (event) => {
-        if(nrOne && !sizeControllerButtonDown && !nrOneButtonDown){
-          let x = event.clientX / window.innerWidth * 100 - downCords.x;
-          let y = event.clientY / window.innerWidth * 100 - downCords.y;
-          this.left += x - this.left;
-          this.top += y - this.top;
-          $(this.dropZone).css({position: "fixed", left: this.left - 0.5 + "vw", top: this.top - 0.5 + "vw"});
-          $(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
-        }
-      });
-      this.dropZone.addEventListener("mousedown", (event) => {
-        event.preventDefault();
+
         setTimeout(() => {this.mouseDown = true;}, 50);
         let lastMousePoint = {x: this.left + this.width / 2, y: this.top + this.height / 2};
         let x = event.clientX / window.innerWidth * 100;
@@ -168,9 +153,9 @@ Limb.prototype.controls = function(controller)
             let x = event.clientX / window.innerWidth * 100;
             let y = event.clientY / window.innerWidth * 100;
             //console.log("client x: " + x);
-            if(sizeControllerDown && this.mouseDown){
+            if(sizeControllerOnclick && this.mouseDown){
               //let y = event.offsetY / window.innerWidth * 100;
-              if(!down && x > this.width * 0.70 + this.left && y > this.height * 0.2 + this.top && y < this.height * 0.8 + this.top && !nrOne){
+              if(x > this.width * 0.70 + this.left && y > this.height * 0.2 + this.top && y < this.height * 0.8 + this.top && !dropDown){
                 this.width = x - this.left;
                 this.dropZone.style.width = this.width + "vw";
                 this.droppedImage.style.width = this.width + "vw";
@@ -183,9 +168,9 @@ Limb.prototype.controls = function(controller)
             let x = event.clientX / window.innerWidth * 100;
             let y = event.clientY / window.innerWidth * 100;
             //console.log("client x: " + x);
-            if(sizeControllerDown && this.mouseDown){
+            if(sizeControllerOnclick && this.mouseDown){
               //let y = event.offsetY / window.innerWidth * 100;
-              if(!down && x < this.width * 0.30 + this.left && y > this.height * 0.2 + this.top && y < this.height * 0.8 + this.top && !nrOne){
+              if(x < this.width * 0.30 + this.left && y > this.height * 0.2 + this.top && y < this.height * 0.8 + this.top && !dropDown){
                 this.width += this.left - x ;
                 this.left = x;
                 this.dropZone.style.width = this.width + "vw";
@@ -202,9 +187,9 @@ Limb.prototype.controls = function(controller)
             let x = event.clientX / window.innerWidth * 100;
             let y = event.clientY / window.innerWidth * 100;
             //console.log("client y: " + y);
-            if(sizeControllerDown && this.mouseDown){
+            if(sizeControllerOnclick && this.mouseDown){
               //let x = event.offsetY / window.innerWidth * 100;
-              if(!down && y > this.height * 0.70 + this.top && x > this.width * 0.2 + this.left && x < this.width * 0.8 + this.left && !nrOne){
+              if(y > this.height * 0.70 + this.top && x > this.width * 0.2 + this.left && x < this.width * 0.8 + this.left && !dropDown){
                 this.height = y - this.top;
                 this.dropZone.style.height = this.height + "vw";
                 this.droppedImage.style.height = this.height + "vw";
@@ -217,9 +202,9 @@ Limb.prototype.controls = function(controller)
             let x = event.clientX / window.innerWidth * 100;
             let y = event.clientY / window.innerWidth * 100;
             //console.log("client y: " + y);
-            if(sizeControllerDown && this.mouseDown){
+            if(sizeControllerOnclick && this.mouseDown){
               //let x = event.offsetY / window.innerWidth * 100;
-              if(!down && y < this.height * 0.30 + this.top && x > this.width * 0.2 + this.left && x < this.width * 0.8 + this.left && !nrOne){
+              if(y < this.height * 0.30 + this.top && x > this.width * 0.2 + this.left && x < this.width * 0.8 + this.left && !dropDown){
                 this.height += this.top - y ;
                 this.top = y;
                 this.dropZone.style.height = this.height + "vw";
@@ -232,48 +217,59 @@ Limb.prototype.controls = function(controller)
           });
         }
       });
+      document.addEventListener("mousemove", (event) => {
+        if(dropDown && !sizeControllerDown){
+          let x = event.clientX / window.innerWidth * 100 - downCords.x;
+          let y = event.clientY / window.innerWidth * 100 - downCords.y;
+          this.left += x - this.left;
+          this.top += y - this.top;
+          $(this.dropZone).css({position: "fixed", left: this.left - 0.5 + "vw", top: this.top - 0.5 + "vw"});
+          $(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
+        }
+      });
       document.addEventListener("mouseup", () => {
         this.mouseDown = false;
+        dropDown = false;//
       });
 
       break;
     case "rotateControllerTest": 
       //gzr
-      let theButtonDown = false;
-      let button = document.createElement("button");
-      button.id = "rotateControllerTest";
-      $(button).css({position: "fixed", left: this.left + 5 + "vw", top: this.top - 3 + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
-      button.textContent = "rotateControllerTest";
-      this.dropZone.appendChild(button);
-      $(button).css({"color": this.color, "background-color": "#000000a7"});
-      button.onclick = () => {
-        if(!(button.textContent === "RCT: on")){
-          button.textContent = "RCT: on";
-          theButtonDown = true;
-        }else if(!(button.textContent === "RCT: of")){
-          button.textContent = "RCT: of";
-          theButtonDown = false;
+      let rotateControllerTestOnclick = false;
+      let rotateControllerTest = document.createElement("button");
+      rotateControllerTest.id = "rotateControllerTest";
+      $(rotateControllerTest).css({position: "fixed", left: this.left + 5 + "vw", top: this.top - 3 + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
+      rotateControllerTest.textContent = "rotateControllerTest";
+      document.body.appendChild(rotateControllerTest);
+      $(rotateControllerTest).css({"color": this.color, "background-color": "#000000a7"});
+      rotateControllerTest.onclick = () => {
+        if(!(rotateControllerTest.textContent === "RCT: on")){
+          rotateControllerTest.textContent = "RCT: on";
+          rotateControllerTestOnclick = true;
+        }else if(!(rotateControllerTest.textContent === "RCT: of")){
+          rotateControllerTest.textContent = "RCT: of";
+          rotateControllerTestOnclick = false;
         }
       }
-      button.addEventListener("mousedown", function(event){
+      rotateControllerTest.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
-          nrOneButtonDown = true;
+          rotateControllerTestDown = true;
         }
       }); 
       document.addEventListener("mouseup", function(event){
         event.preventDefault();
-        nrOneButtonDown = false;
+        rotateControllerTestDown = false;
       }); 
       document.addEventListener("mousemove", (event) => {
-        if(nrOneButtonDown){
+        if(rotateControllerTestDown){
           let x = event.clientX / window.innerWidth * 100;
           let y = event.clientY / window.innerWidth * 100;
-          $(button).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
+          $(rotateControllerTest).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
         }
       });
       document.addEventListener("click", () => {
-        if(theButtonDown){
+        if(rotateControllerTestOnclick){
           let kordynatyty = elementWent(110, 1);
           this.left += kordynatyty.x;
           this.top += kordynatyty.y;
@@ -326,7 +322,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //limbs.push(new Limb(cords.x - 5, cords.y - 5, 10, 10));
   });
   document.addEventListener("click", (event) => {
-    if(event.button === 3){
+    if(event.button === 2){
       cords.x = event.clientX / window.innerWidth * 100;
       cords.y = event.clientY / window.innerWidth * 100;
     }else if(buttons > 0){
