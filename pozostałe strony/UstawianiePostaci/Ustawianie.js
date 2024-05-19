@@ -18,6 +18,7 @@ function elementWent(deg, how)
 
 function Limb(left, top, width, height, src)
 {
+  this.pacochy = [];
   this.color = colors[Math.floor(Math.random() * colors.length)];
   this.mouseDown = false;
   this.left = left;
@@ -80,6 +81,8 @@ function Limb(left, top, width, height, src)
       reader.readAsDataURL(file);
     }else{
       let prpt = prompt("Error: Przeciągnięty plik nie jest obrazem!");
+      if(prpt === null)
+        prpt = "null"
       if(prpt.toLowerCase() === "ok"){
         let cnf = confirm("Ok?!");
         if(!cnf){
@@ -101,29 +104,43 @@ Limb.prototype.controls = function(controller)
       let dropDown = false;
       let sizeControllerOnclick = false;
       let sizeController = document.createElement("button");
+      let sizeControllerPosition = {x: this.left, y: this.top - 3};
       sizeController.id = "sizeController";
-      $(sizeController).css({position: "fixed", left: this.left + "vw", top: this.top - 3 + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
+      $(sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
       sizeController.textContent = "Size Controller";
       $(sizeController).css({"color": this.color, "background-color": "#000000a7"});
       document.body.appendChild(sizeController);
-
-      sizeController.addEventListener("mousedown", function(event){
+      let downCordsSizeController = {x: null, y: null};
+      this.dropZone.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
+          downCordsSizeController.x = event.clientX / window.innerWidth * 100 - sizeControllerPosition.x;
+          downCordsSizeController.y = event.clientY / window.innerWidth * 100 - sizeControllerPosition.y;
           sizeControllerDown = true;
         }
       }); 
-      sizeController.addEventListener("mouseup", function(event){
+      sizeController.addEventListener("mousedown", function(event){
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsSizeController.x = event.clientX / window.innerWidth * 100 - sizeControllerPosition.x;
+          downCordsSizeController.y = event.clientY / window.innerWidth * 100 - sizeControllerPosition.y;
+          sizeControllerDown = true;
+        }
+      }); 
+      document.addEventListener("mouseup", function(event){
         event.preventDefault();
         sizeControllerDown = false;
       });
       document.addEventListener("mousemove", (event) => {
         if(sizeControllerDown){
-          let x = event.clientX / window.innerWidth * 100;
-          let y = event.clientY / window.innerWidth * 100;
-          $(sizeController).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
+          let x = event.clientX / window.innerWidth * 100 - downCordsSizeController.x;
+          let y = event.clientY / window.innerWidth * 100 - downCordsSizeController.y;
+          sizeControllerPosition.x += x - sizeControllerPosition.x;
+          sizeControllerPosition.y += y - sizeControllerPosition.y;
+          $(sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw"});
         }
       });
+      
       sizeController.onclick = () => {
         if(!(sizeController.textContent === "Main menu")){
           sizeController.textContent = "Main menu";
@@ -134,12 +151,12 @@ Limb.prototype.controls = function(controller)
         }
       }
 
-      let downCords = {x: null, y: null};
+      let downCordsDropZone = {x: null, y: null};
       this.dropZone.addEventListener("mousedown", (event) => {///////////////////////////////////////////////////////////////////////////////////////////////////////////
         event.preventDefault();
         if(event.button === 1){
-          downCords.x = event.clientX / window.innerWidth * 100 - this.left;
-          downCords.y = event.clientY / window.innerWidth * 100 - this.top;
+          downCordsDropZone.x = event.clientX / window.innerWidth * 100 - this.left;
+          downCordsDropZone.y = event.clientY / window.innerWidth * 100 - this.top;
           dropDown = true;
         }
 
@@ -218,13 +235,22 @@ Limb.prototype.controls = function(controller)
         }
       });
       document.addEventListener("mousemove", (event) => {
-        if(dropDown && !sizeControllerDown){
-          let x = event.clientX / window.innerWidth * 100 - downCords.x;
-          let y = event.clientY / window.innerWidth * 100 - downCords.y;
+        if(dropDown){
+          let x = event.clientX / window.innerWidth * 100 - downCordsDropZone.x;
+          let y = event.clientY / window.innerWidth * 100 - downCordsDropZone.y;
           this.left += x - this.left;
           this.top += y - this.top;
           $(this.dropZone).css({position: "fixed", left: this.left - 0.5 + "vw", top: this.top - 0.5 + "vw"});
           $(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
+          if(this.pacochy.length > 0){
+            for(let i = 0; i < this.pacochy.length; i++){
+              $(this.pacochy[i].html).css({
+                position: "fixed",
+                left: this.left + this.pacochy[i].x * this.width + "vw", 
+                top: this.top + this.pacochy[i].y * this.height + "vw"
+              });
+            }
+          }
         }
       });
       document.addEventListener("mouseup", () => {
@@ -238,7 +264,8 @@ Limb.prototype.controls = function(controller)
       let rotateControllerTestOnclick = false;
       let rotateControllerTest = document.createElement("button");
       rotateControllerTest.id = "rotateControllerTest";
-      $(rotateControllerTest).css({position: "fixed", left: this.left + 5 + "vw", top: this.top - 3 + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
+      let rotateControllerPosition = {x: this.left + 5, y: this.top - 3};
+      $(rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
       rotateControllerTest.textContent = "rotateControllerTest";
       document.body.appendChild(rotateControllerTest);
       $(rotateControllerTest).css({"color": this.color, "background-color": "#000000a7"});
@@ -246,14 +273,35 @@ Limb.prototype.controls = function(controller)
         if(!(rotateControllerTest.textContent === "RCT: on")){
           rotateControllerTest.textContent = "RCT: on";
           rotateControllerTestOnclick = true;
+          if(this.pacochy.length > 0){
+            for(let i = 0; i < this.pacochy.length; i++){
+              this.pacochy[i].html.style.opacity = 1;
+            }
+          }
         }else if(!(rotateControllerTest.textContent === "RCT: of")){
           rotateControllerTest.textContent = "RCT: of";
           rotateControllerTestOnclick = false;
+          if(this.pacochy.length > 0){
+            for(let i = 0; i < this.pacochy.length; i++){
+              this.pacochy[i].html.style.opacity = 0;
+            }
+          }
         }
       }
+      let downCordsRotateController = {x: null, y: null};
       rotateControllerTest.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
+          downCordsRotateController.x = event.clientX / window.innerWidth * 100 - rotateControllerPosition.x;
+          downCordsRotateController.y = event.clientY / window.innerWidth * 100 - rotateControllerPosition.y;
+          rotateControllerTestDown = true;
+        }
+      });
+      this.dropZone.addEventListener("mousedown", function(event){
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsRotateController.x = event.clientX / window.innerWidth * 100 - rotateControllerPosition.x;
+          downCordsRotateController.y = event.clientY / window.innerWidth * 100 - rotateControllerPosition.y;
           rotateControllerTestDown = true;
         }
       }); 
@@ -263,11 +311,14 @@ Limb.prototype.controls = function(controller)
       }); 
       document.addEventListener("mousemove", (event) => {
         if(rotateControllerTestDown){
-          let x = event.clientX / window.innerWidth * 100;
-          let y = event.clientY / window.innerWidth * 100;
-          $(rotateControllerTest).css({position: "fixed", left: x - 2.25 + "vw", top: y - 1 + "vw"});
+          let x = event.clientX / window.innerWidth * 100 - downCordsRotateController.x;
+          let y = event.clientY / window.innerWidth * 100 - downCordsRotateController.y;
+          rotateControllerPosition.x = x;
+          rotateControllerPosition.y = y;
+          $(rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw"});
         }
       });
+      /*
       document.addEventListener("click", () => {
         if(rotateControllerTestOnclick){
           let kordynatyty = elementWent(110, 1);
@@ -277,9 +328,37 @@ Limb.prototype.controls = function(controller)
           $(this.droppedImage).css({left: this.left + "vw", top: this.top + "vw", position: "fixed"});  
         }
       });
+      */
+      this.dropZone.addEventListener("click", (event) => {
+        event.preventDefault();
+        if(rotateControllerTestOnclick){
+          this.pacochy.unshift({html: document.createElement("img"), touch: true, x: (event.clientX / window.innerWidth * 100 - 1.5 - this.left) / this.width, y: (event.clientY / window.innerWidth * 100 - 1.5 - this.top) / this.height});
+          this.pacochy[0].html.src = "Images/pacochafrue.png";
+          $(this.pacochy[0].html).css({position: "fixed", width: "3vw", height: "3vw", left: this.pacochy[0].x * this.width + this.left + "vw", top: this.pacochy[0].y * this.height + this.top + "vw"});
+          document.body.appendChild(this.pacochy[0].html);
+        }
+      });
+
+      //czas na pacochę >:€
+
+      break;
+    case "coś tam ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble": 
+      //jeśli kliknięto dodaj pacochę na kordynaty kliknięcia i dodaj obiekt z x y pacochi i nazwą pacochi
+     
+
       break;
   }
 }
+/*
+Limb.prototype.pluginForPacochy = function()
+{
+  //sprawdzaj czy klikniętio pacochę
+  if(this.pacochy.length > 0){
+    for(let j = 0; j < this.pacochy.length; j++){
+      this.pacochy[j].html.css({position: "fixed", left: this.left + this.pacochy[j].x, this.top: this.top + this.pacochy[j].y});
+    }
+  }
+}*/
 
 Limb.prototype.delite = function()
 {
