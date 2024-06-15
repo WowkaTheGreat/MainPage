@@ -18,6 +18,8 @@ function elementWent(deg, how)
 
 function Limb(left, top, width, height, src)
 {
+  this.statusReady = false;
+  this.status = true;
   this.pacochy = [];
   this.color = colors[Math.floor(Math.random() * colors.length)];
   this.mouseDown = false;
@@ -53,7 +55,9 @@ function Limb(left, top, width, height, src)
     limbs.pop();
     this.dropZone.remove();
     alert("Odwołano");
+    this.status = false;
   }
+  this.statusReady = true;
 
   this.dropZone.addEventListener('dragenter', (event) => {
     event.preventDefault();
@@ -90,9 +94,7 @@ function Limb(left, top, width, height, src)
         }
       }
     }
-  });
-
-
+  }); 
 }
 
 Limb.prototype.controls = function(controller)
@@ -103,13 +105,13 @@ Limb.prototype.controls = function(controller)
     case "sizeController": 
       let dropDown = false;
       let sizeControllerOnclick = false;
-      let sizeController = document.createElement("button");
+      this.sizeController = document.createElement("button");
       let sizeControllerPosition = {x: this.left, y: this.top - 3};
-      sizeController.id = "sizeController";
-      $(sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
-      sizeController.textContent = "Size Controller";
-      $(sizeController).css({"color": this.color, "background-color": "#000000a7"});
-      document.body.appendChild(sizeController);
+      this.sizeController.id = "sizeController";
+      $(this.sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw", width: 4.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
+      this.sizeController.textContent = "Size Controller";
+      $(this.sizeController).css({"color": this.color, "background-color": "#000000a7"});
+      document.body.appendChild(this.sizeController);
       let downCordsSizeController = {x: null, y: null};
       this.dropZone.addEventListener("mousedown", function(event){
         event.preventDefault();
@@ -119,7 +121,7 @@ Limb.prototype.controls = function(controller)
           sizeControllerDown = true;
         }
       }); 
-      sizeController.addEventListener("mousedown", function(event){
+      this.sizeController.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
           downCordsSizeController.x = event.clientX / window.innerWidth * 100 - sizeControllerPosition.x;
@@ -137,16 +139,16 @@ Limb.prototype.controls = function(controller)
           let y = event.clientY / window.innerWidth * 100 - downCordsSizeController.y;
           sizeControllerPosition.x += x - sizeControllerPosition.x;
           sizeControllerPosition.y += y - sizeControllerPosition.y;
-          $(sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw"});
+          $(this.sizeController).css({position: "fixed", left: sizeControllerPosition.x + "vw", top: sizeControllerPosition.y + "vw"});
         }
       });
       
-      sizeController.onclick = () => {
-        if(!(sizeController.textContent === "Main menu")){
-          sizeController.textContent = "Main menu";
+      this.sizeController.onclick = () => {
+        if(!(this.sizeController.textContent === "Main menu")){
+          this.sizeController.textContent = "Main menu";
           sizeControllerOnclick = true;
-        }else if(!(sizeController.textContent === "Size Controller")){
-          sizeController.textContent = "Size Controller";
+        }else if(!(this.sizeController.textContent === "Size Controller")){
+          this.sizeController.textContent = "Size Controller";
           sizeControllerOnclick = false;
         }
       }
@@ -236,18 +238,20 @@ Limb.prototype.controls = function(controller)
       });
       document.addEventListener("mousemove", (event) => {
         if(dropDown){
-          let x = event.clientX / window.innerWidth * 100 - downCordsDropZone.x;
-          let y = event.clientY / window.innerWidth * 100 - downCordsDropZone.y;
-          this.left += x - this.left;
-          this.top += y - this.top;
+          let x = (event.clientX / window.innerWidth * 100 - this.left) - downCordsDropZone.x;
+          let y = (event.clientY / window.innerWidth * 100 - this.top) - downCordsDropZone.y;
+          this.left += x;
+          this.top += y;
           $(this.dropZone).css({position: "fixed", left: this.left - 0.5 + "vw", top: this.top - 0.5 + "vw"});
           $(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
           if(this.pacochy.length > 0){
             for(let i = 0; i < this.pacochy.length; i++){
+              this.pacochy[i].x += x;
+              this.pacochy[i].y += y;
               $(this.pacochy[i].html).css({
                 position: "fixed",
-                left: this.left + this.pacochy[i].x * this.width + "vw", 
-                top: this.top + this.pacochy[i].y * this.height + "vw"
+                left: this.pacochy[i].x + "vw", 
+                top: this.pacochy[i].y + "vw"
               });
             }
           }
@@ -262,34 +266,34 @@ Limb.prototype.controls = function(controller)
     case "rotateControllerTest": 
       //gzr
       let rotateControllerTestOnclick = false;
-      let rotateControllerTest = document.createElement("button");
-      rotateControllerTest.id = "rotateControllerTest";
+      this.rotateControllerTest = document.createElement("button");
+      this.rotateControllerTest.id = "rotateControllerTest";
       let rotateControllerPosition = {x: this.left + 5, y: this.top - 3};
-      $(rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
-      rotateControllerTest.textContent = "rotateControllerTest";
-      document.body.appendChild(rotateControllerTest);
-      $(rotateControllerTest).css({"color": this.color, "background-color": "#000000a7"});
-      rotateControllerTest.onclick = () => {
-        if(!(rotateControllerTest.textContent === "RCT: on")){
-          rotateControllerTest.textContent = "RCT: on";
+      $(this.rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw", width: 7.5 + "vw", height: 2 + "vw", "font-size": "0.8vw"});
+      this.rotateControllerTest.textContent = "rotateControllerTest";
+      document.body.appendChild(this.rotateControllerTest);
+      $(this.rotateControllerTest).css({"color": this.color, "background-color": "#000000a7"});
+      this.rotateControllerTest.onclick = () => {
+        if(!(this.rotateControllerTest.textContent === "RCT: on")){
+          this.rotateControllerTest.textContent = "RCT: on";
           rotateControllerTestOnclick = true;
           if(this.pacochy.length > 0){
             for(let i = 0; i < this.pacochy.length; i++){
-              this.pacochy[i].html.style.opacity = 1;
+              this.pacochy[i].html.style.display = "block";
             }
           }
-        }else if(!(rotateControllerTest.textContent === "RCT: of")){
-          rotateControllerTest.textContent = "RCT: of";
+        }else if(!(this.rotateControllerTest.textContent === "RCT: of")){
+          this.rotateControllerTest.textContent = "RCT: of";
           rotateControllerTestOnclick = false;
           if(this.pacochy.length > 0){
             for(let i = 0; i < this.pacochy.length; i++){
-              this.pacochy[i].html.style.opacity = 0;
+              this.pacochy[i].html.style.display = "none";
             }
           }
         }
       }
       let downCordsRotateController = {x: null, y: null};
-      rotateControllerTest.addEventListener("mousedown", function(event){
+      this.rotateControllerTest.addEventListener("mousedown", function(event){
         event.preventDefault();
         if(event.button === 1){
           downCordsRotateController.x = event.clientX / window.innerWidth * 100 - rotateControllerPosition.x;
@@ -315,7 +319,7 @@ Limb.prototype.controls = function(controller)
           let y = event.clientY / window.innerWidth * 100 - downCordsRotateController.y;
           rotateControllerPosition.x = x;
           rotateControllerPosition.y = y;
-          $(rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw"});
+          $(this.rotateControllerTest).css({position: "fixed", left: rotateControllerPosition.x + "vw", top: rotateControllerPosition.y + "vw"});
         }
       });
       /*
@@ -329,14 +333,23 @@ Limb.prototype.controls = function(controller)
         }
       });
       */
-      this.dropZone.addEventListener("click", (event) => {
+      this.dropZone.addEventListener("mousedown", (event) => {
         event.preventDefault();
-        if(rotateControllerTestOnclick){
-          this.pacochy.unshift({html: document.createElement("img"), touch: true, x: (event.clientX / window.innerWidth * 100 - 1.5 - this.left) / this.width, y: (event.clientY / window.innerWidth * 100 - 1.5 - this.top) / this.height});
-          this.pacochy[0].html.src = "Images/pacochafrue.png";
-          $(this.pacochy[0].html).css({position: "fixed", width: "3vw", height: "3vw", left: this.pacochy[0].x * this.width + this.left + "vw", top: this.pacochy[0].y * this.height + this.top + "vw"});
-          document.body.appendChild(this.pacochy[0].html);
-        }
+        let dropZoneUp = false;
+        document.addEventListener("mouseup", () => {
+          dropZoneUp = true;
+        });
+        setTimeout(
+          () => {
+            if(rotateControllerTestOnclick && event.button === 0 && dropZoneUp){
+              this.pacochy.unshift({html: document.createElement("img"), touch: true, x: event.clientX / window.innerWidth * 100 - 1.5, y: event.clientY / window.innerWidth * 100 - 1.5, firstPosition: {x: this.width, y: this.height, left: this.left, top: this.top}});
+              this.pacochy[0].html.src = "Images/pacochafrue.png";
+              $(this.pacochy[0].html).css({position: "fixed", width: "3vw", height: "3vw", left: this.pacochy[0].x + "vw", top: this.pacochy[0].y + "vw"});
+              document.body.appendChild(this.pacochy[0].html);
+            }
+          },
+          144
+        );
       });
 
       //czas na pacochę >:€
@@ -384,12 +397,12 @@ function button(x, y)
     buttons = 0;
     let src = prompt("Src please!");
     limbs.push(new Limb(cords.x - 5, cords.y - 5, 10, 10, src));
-    limbs[limbs.length - 1].controls("sizeController");
-    limbs[limbs.length - 1].controls("rotateControllerTest");
+    if(limbs[limbs.length - 1].status && limbs[limbs.length - 1].statusReady){  
+      limbs[limbs.length - 1].controls("sizeController", limbs.length - 1);
+      limbs[limbs.length - 1].controls("rotateControllerTest", limbs.length - 1);
+    }
   }
 }
-
-//limbs[limbs.length].controls("sizeController");
 
 let cords = {x: null, y: null};
 document.addEventListener("DOMContentLoaded", () => {
