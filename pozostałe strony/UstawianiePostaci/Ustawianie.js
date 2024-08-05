@@ -84,7 +84,7 @@ function Limb(left, top, width, height, src)
       }
       reader.readAsDataURL(file);
     }else{
-      let prpt = prompt("Error: Przeciągnięty plik nie jest obrazem!");
+      let prpt = prompt("Error404: Przeciągnięty plik nie jest obrazem!");
       if(prpt === null)
         prpt = "null"
       if(prpt.toLowerCase() === "ok"){
@@ -101,6 +101,8 @@ Limb.prototype.controls = function(controller)
 {
   let rotateControllerTestDown = false;
   let sizeControllerDown = false;
+  let deliteDown = false;
+  let testDown = false;
   switch(controller){
     case "sizeController": 
       let dropDown = false;
@@ -264,7 +266,6 @@ Limb.prototype.controls = function(controller)
 
       break;
     case "rotateControllerTest": 
-      //gzr
       let rotateControllerTestOnclick = false;
       this.rotateControllerTest = document.createElement("button");
       this.rotateControllerTest.id = "rotateControllerTest";
@@ -355,28 +356,114 @@ Limb.prototype.controls = function(controller)
       //czas na pacochę >:€
 
       break;
-    case "coś tam ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble": 
-      //jeśli kliknięto dodaj pacochę na kordynaty kliknięcia i dodaj obiekt z x y pacochi i nazwą pacochi
-     
-
+    case "delite": 
+      this.delite = document.createElement("button");
+      this.delite.id = "delite";
+      let delitePosition = {x: this.left + 13, y: this.top - 3};
+      $(this.delite).css({position: "fixed", left: delitePosition.x + "vw", top: delitePosition.y + "vw", width: 9 + "vw", height: 5.8 + "vw", "font-size": "1.6vw"});
+      this.delite.textContent = "DO NOT TOUCH";
+      document.body.appendChild(this.delite);
+      $(this.delite).css({"color": this.color, "background-color": "#db0000"});
+      this.delite.onclick = () => {
+        let msg = confirm("do not…");
+        if(msg){
+          msg = confirm("NOOOO TOUCH!!!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+          if(msg){
+            limbs.pop();
+            this.dropZone.remove();
+            if(this.sizeController)
+              this.sizeController.remove();
+            if(this.rotateControllerTest)
+              this.rotateControllerTest.remove();
+            if(this.delite)
+              this.delite.remove();
+            if(this.test)
+              this.test.remove();
+          }else{
+            alert("E®†ī^ó…Ļ^ó    ERROR 404   Ļĺóķ∆∂śń©ķ®ł    ERROR 404   ę∑^Ľ§^§¶ī…Ľ¶į¶•įĽī÷©ńī≥ł    ERROR 404   †ó®ę®¶•ó^¨ī∂†∆ß¨∑ęį®§†¶†¨     ERROR 404    ĘŚśťÁťū¶Ť§ś£Ęį§¶••¶§    ERROR 404   įĘŤÔ§¶śŤÁžÁĘ¶§ŤśÁū¶śŤ§    ERROR 404   ū¶įŚūį§Ś≤ťś¶ť¶śū∂®†ī");
+          }
+        }
+      }
+      let downCordsDelite = {x: null, y: null};
+      this.delite.addEventListener("mousedown", function(event){
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsDelite.x = event.clientX / window.innerWidth * 100 - delitePosition.x;
+          downCordsDelite.y = event.clientY / window.innerWidth * 100 - delitePosition.y;
+          deliteDown = true;
+        }
+      });
+      this.dropZone.addEventListener("mousedown", function(event){
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsDelite.x = event.clientX / window.innerWidth * 100 - delitePosition.x;
+          downCordsDelite.y = event.clientY / window.innerWidth * 100 - delitePosition.y;
+          deliteDown = true;
+        }
+      }); 
+      document.addEventListener("mouseup", function(event){
+        event.preventDefault();
+        deliteDown = false;
+      }); 
+      document.addEventListener("mousemove", (event) => {
+        if(deliteDown){
+          let x = event.clientX / window.innerWidth * 100 - downCordsDelite.x;
+          let y = event.clientY / window.innerWidth * 100 - downCordsDelite.y;
+          delitePosition.x = x;
+          delitePosition.y = y;
+          $(this.delite).css({position: "fixed", left: delitePosition.x + "vw", top: delitePosition.y + "vw"});
+        }
+      });
+      break;
+    case "test":
+      this.test = document.createElement("button");
+      this.test.id = "test";
+      let testPosition = {x: this.left - 6, y: this.top - 3};
+      $(this.test).css({position: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw", width: 5.5 + "vw", height: 2 + "vw", "font-size": "0.8vw", "font-family": "Luminari, fantasy", "color": this.color, "background-color": "#000000a7"});
+      this.test.textContent = "TEST 😼 of"
+      document.body.appendChild(this.test);
+      let testOnclick = false;
+      this.test.onclick = () => {
+        if(!(this.test.textContent === "TEST 😼 of")){
+          this.test.textContent = "TEST 😼 of";
+          testOnclick = false;
+        }else if(!(this.test.textContent === "TEST 😼 on")){
+          this.test.textContent = "TEST 😼 on";
+          testOnclick = true;
+        }
+      }
+      let downCordsTest = {x: null, y: null};
+      this.test.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsTest.x = event.clientX / window.innerWidth * 100 - testPosition.x;
+          downCordsTest.y = event.clientY / window.innerWidth * 100 - testPosition.y;
+          testDown = true;
+        }
+      });
+      this.dropZone.addEventListener("mousedown", (event) => {
+        event.preventDefault();
+        if(event.button === 1){
+          downCordsTest.x = event.clientX / window.innerWidth * 100 - testPosition.x;
+          downCordsTest.y = event.clientY / window.innerWidth * 100 - testPosition.y;
+          testDown = true;
+        }
+      });
+      document.addEventListener("mouseup", (event) => {
+        event.preventDefault();
+        testDown = false;
+      });
+      document.addEventListener("mousemove", (event) => {
+        if(testDown){
+          let x = event.clientX / window.innerWidth * 100 - downCordsTest.x;
+          let y = event.clientY / window.innerWidth * 100 - downCordsTest.y;
+          testPosition.x = x;
+          testPosition.y = y;
+          $(this.test).css({position: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw"});
+        }
+      });
       break;
   }
-}
-/*
-Limb.prototype.pluginForPacochy = function()
-{
-  //sprawdzaj czy klikniętio pacochę
-  if(this.pacochy.length > 0){
-    for(let j = 0; j < this.pacochy.length; j++){
-      this.pacochy[j].html.css({position: "fixed", left: this.left + this.pacochy[j].x, this.top: this.top + this.pacochy[j].y});
-    }
-  }
-}*/
-
-Limb.prototype.delite = function()
-{
-  //ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble 
-  //ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble ble 
 }
 
 let limbs = [];
@@ -398,8 +485,10 @@ function button(x, y)
     let src = prompt("Src please!");
     limbs.push(new Limb(cords.x - 5, cords.y - 5, 10, 10, src));
     if(limbs[limbs.length - 1].status && limbs[limbs.length - 1].statusReady){  
-      limbs[limbs.length - 1].controls("sizeController", limbs.length - 1);
-      limbs[limbs.length - 1].controls("rotateControllerTest", limbs.length - 1);
+      limbs[limbs.length - 1].controls("sizeController");
+      limbs[limbs.length - 1].controls("rotateControllerTest");
+      limbs[limbs.length - 1].controls("delite");
+      limbs[limbs.length - 1].controls("test");
     }
   }
 }
