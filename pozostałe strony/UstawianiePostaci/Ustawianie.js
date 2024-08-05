@@ -18,6 +18,7 @@ function elementWent(deg, how)
 
 function Limb(left, top, width, height, src)
 {
+  this.deg = 45;
   this.statusReady = false;
   this.status = true;
   this.pacochy = [];
@@ -33,7 +34,8 @@ function Limb(left, top, width, height, src)
     left: this.left - 0.5 + "vw",
     top: this.top - 0.5 + "vw",
     width: this.width + "vw", 
-    height: this.height + "vw", 
+    height: this.height + "vw",
+    "transform": "rotate(" + this.deg + "deg)", 
     border: "0.5vw dashed " + this.color,
     "text-align": "center",
     "line-height": this.height + "vw",
@@ -41,8 +43,8 @@ function Limb(left, top, width, height, src)
   });  
   this.droppedImage = this.dropZone.appendChild(document.createElement("img"));
   $(this.droppedImage).css({
-    left: this.left + "vw",
-    top: this.top + "vw",
+    //left: this.left + "vw",
+    //top: this.top + "vw",
     width: this.width + "vw", 
     height: this.height + "vw", 
     position: "fixed", 
@@ -197,7 +199,7 @@ Limb.prototype.controls = function(controller)
                 this.dropZone.style.width = this.width + "vw";
                 this.droppedImage.style.width = this.width + "vw";
                 this.dropZone.style.left = this.left - 0.5 + "vw";
-                this.droppedImage.style.left = this.left + "vw";
+                //this.droppedImage.style.left = this.left + "vw";
                 lastMousePoint.x = x;
               } 
             }
@@ -231,7 +233,7 @@ Limb.prototype.controls = function(controller)
                 this.dropZone.style.height = this.height + "vw";
                 this.droppedImage.style.height = this.height + "vw";
                 this.dropZone.style.top = this.top - 0.5 + "vw";
-                this.droppedImage.style.top = this.top + "vw";
+                //this.droppedImage.style.top = this.top + "vw";
                 lastMousePoint.y = y;
               } 
             }
@@ -245,7 +247,7 @@ Limb.prototype.controls = function(controller)
           this.left += x;
           this.top += y;
           $(this.dropZone).css({position: "fixed", left: this.left - 0.5 + "vw", top: this.top - 0.5 + "vw"});
-          $(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
+          //$(this.droppedImage).css({position: "fixed", left: this.left + "vw", top: this.top + "vw"});
           if(this.pacochy.length > 0){
             for(let i = 0; i < this.pacochy.length; i++){
               this.pacochy[i].x += x;
@@ -462,6 +464,11 @@ Limb.prototype.controls = function(controller)
           $(this.test).css({position: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw"});
         }
       });
+
+      if(testOnclick){
+
+      }
+
       break;
   }
 }
