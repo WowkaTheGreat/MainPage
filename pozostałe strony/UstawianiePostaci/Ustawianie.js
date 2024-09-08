@@ -461,13 +461,26 @@ Limb.prototype.controls = function(controller)
           let y = event.clientY / window.innerWidth * 100 - downCordsTest.y;
           testPosition.x = x;
           testPosition.y = y;
-          $(this.test).css({position: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw"});
+          $(this.test).css({style: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw"});
+        }else if(testOnclick && !testDown){
+          let x = event.clientX / window.innerWidth * 100 - this.left;
+          let y = event.clientY / window.innerWidth * 100 - this.top;
+          let degress = [];
+          for(let i = 1; i < 361; i++){
+            let left = Math.cos(Math.PI / 180 * i) / window.innerWidth * 100;
+            let top = Math.sin(Math.PI / 180 * i) / window.innerWidth * 100;
+            degress.push({x: x / left, y: y / top});
+          }
+          console.table(degress);
         }
       });
 
-      if(testOnclick){
-
-      }
+      /*let rotateScan = setInterval(
+        () => {
+          
+        }, 
+        650
+      );*/
 
       break;
   }
