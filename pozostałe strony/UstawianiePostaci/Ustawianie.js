@@ -455,6 +455,9 @@ Limb.prototype.controls = function(controller)
         event.preventDefault();
         testDown = false;
       });
+      let degressX = [];
+      let degressY = [];
+      let counting = false;
       document.addEventListener("mousemove", (event) => {
         if(testDown){
           let x = event.clientX / window.innerWidth * 100 - downCordsTest.x;
@@ -462,25 +465,101 @@ Limb.prototype.controls = function(controller)
           testPosition.x = x;
           testPosition.y = y;
           $(this.test).css({style: "fixed", left: testPosition.x + "vw", top: testPosition.y + "vw"});
-        }else if(testOnclick && !testDown){
+        }else if(testOnclick && !testDown && !counting){
           let x = event.clientX / window.innerWidth * 100 - this.left;
           let y = event.clientY / window.innerWidth * 100 - this.top;
-          let degress = [];
           for(let i = 1; i < 361; i++){
             let left = Math.cos(Math.PI / 180 * i) / window.innerWidth * 100;
             let top = Math.sin(Math.PI / 180 * i) / window.innerWidth * 100;
-            degress.push({x: x / left, y: y / top});
+            degressX.push({number: x / left, deg: i});
+            degressY.push({number: y / top, deg: i});
+
+            let degToCountX = degressX[degressX.length - 1].number;
+            console.log(degToCountX);
+            while(true/*degToCountX.length > 0*/){
+              degToCountX.splice(0, 1);
+            }
+            //console.log(degToCountX);
+
+            counting = true;
           }
-          console.table(degress);
+          //console.table(degress);
         }
       });
 
-      /*let rotateScan = setInterval(
+      setInterval(
         () => {
-          
+          if(counting){
+            //this.deg++;
+            //$(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+            while(degressX.length > 1){
+              if(degressX[0].number < degressX[1].number){
+                degressX.splice(0, 1);
+              }else if(degressX[0].number > degressX[1].number){
+                degressX.splice(1, 1);
+              }
+            }
+            while(degressY.length > 1){
+              if(degressY[0].number < degressY[1].number){
+                degressY.splice(0, 1);
+              }else if(degressY[0].number > degressY[1].number){
+                degressY.splice(1, 1);
+              }
+            }
+            
+            if(degressY.length === 1 && degressX.length === 1){
+              if(degressY[0].number < degressX[0].number){
+                this.deg = degressX[0].deg;
+                $(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+              }else{
+                this.deg = degressY[0].deg;
+                $(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+              }
+            }
+            counting = false;
+            degressX = [];
+            degressY = [];
+          }
         }, 
-        650
-      );*/
+        200
+      );
+
+      /*setInterval(
+        () => {
+          if(testOnclick && !testDown && !counting){
+            //this.deg++;
+            //$(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+            counting = true;
+            while(degressX.length > 1){
+              if(degressX[0].number < degressX[1].number){
+                degressX.slice(0, 1);
+              }else if(degressX[0].number > degressX[1].number){
+                degressX.slice(1, 2);
+              }
+            }
+            while(degressY.length > 1){
+              if(degressY[0].number < degressY[1].number){
+                degressY.slice(0, 1);
+              }else if(degressY[0].number > degressY[1].number){
+                degressY.slice(1, 2);
+              }
+            }
+            console.log("x: " + degressX + "y: " + degressY);
+            if(degressY.length <= 1 && degressX.length <= 1){
+              if(degressY[0].number < degressX[0].number){
+                this.deg = degressX[0].deg;
+                $(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+              }else{
+                this.deg = degressY[0].deg;
+                $(this.dropZone).css({"transform": "rotate(" + this.deg + "deg)"});
+              }
+            }
+            counting = false;
+            degressX = [];
+            degressY = [];
+          }
+        }, 
+        255);*/
 
       break;
   }
